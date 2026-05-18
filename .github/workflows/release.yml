@@ -33,7 +33,9 @@ jobs:
       - name: Run Gradle Build
         run: ./gradlew assemble
 
+      # Этот шаг сработает СТРОГО тогда, когда вы запушите тег (например, v1.0.0)
       - name: Upload to Existing Release
+        if: startsWith(github.ref, 'refs/tags/')
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
