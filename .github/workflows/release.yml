@@ -2,8 +2,6 @@ name: Build and Release JMeter Plugin
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*'
 
@@ -30,17 +28,18 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
+      # Собираем проект стандартным assemble
       - name: Run Gradle Build
         run: ./gradlew assemble
 
-      # Этот шаг сработает СТРОГО тогда, когда вы запушите тег (например, v1.0.0)
+      # Загружаем собранный jar-файл без каких-либо суффиксов
       - name: Upload to Existing Release
-        if: startsWith(github.ref, 'refs/tags/')
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           replacesArtifacts: true
           tag: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
+          # Ищет обычный чистый jar-файл, как у вас и создается
           artifacts: "build/libs/*.jar"
           token: ${{ secrets.GITHUB_TOKEN }}
