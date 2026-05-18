@@ -3,6 +3,9 @@ Kafka sampler with connection pooling and Base64-encoded Avro schema support
 
 ![Пример заполнения плагина](example.jpg)
 
+Плагин является тонким джарником, по этому в jmeter нужно скопировать помимо плагина, kafka библиотеку, 
+например kafka-clients-3.6.1.jar https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients/3.6.1
+
 Возможности плагина
 1) Можно задавать имя для продюсера и тогда все потоки или группы потоков будут использовать всего один продюсер.
 Если имена продюсеров будут различные, то для каждого нового имени будут создаваться новые продюсеры.
