@@ -1,15 +1,13 @@
-name: Build and Release Plugin
+name: Manual Build Plugin
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  build-and-release:
+  build-manual:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -22,18 +20,15 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
 
-      - name: Make gradlew executable
-        run: chmod +x gradlew
+      - name: Run Gradle Build
+        run: gradle build
 
-      - name: Build Fat JAR
-        run: ./gradlew shadowJar
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - name: Upload to Existing Release
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
-          generate_release_notes: true
-          files: build/libs/*-plugin.jar
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          replacesArtifacts: true
+          tag: v1.0.1
+          name: Release v1.0.1
+          artifacts: "build/libs/*.jar"
+          token: ${{ secrets.GITHUB_TOKEN }}
