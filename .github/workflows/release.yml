@@ -1,0 +1,45 @@
+name: Build and Release JMeter Plugin
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      # Собираем проект стандартным assemble
+      - name: Run Gradle Build
+        run: ./gradlew assemble
+
+      # Загружаем собранный jar-файл без каких-либо суффиксов
+      - name: Upload to Existing Release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          replacesArtifacts: true
+          tag: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          # Ищет обычный чистый jar-файл, как у вас и создается
+          artifacts: "build/libs/*.jar"
+          token: ${{ secrets.GITHUB_TOKEN }}
