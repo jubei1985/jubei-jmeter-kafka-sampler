@@ -83,15 +83,15 @@ public class KafkaProducerSamplerGui extends AbstractSamplerGui {
 
     @Override
     public String getLabelResource() {
-        return "Kafka Producer Sampler"
+        return "Jubei kafka producer"
     }
     @Override
     public String getStaticLabel() {
-        return "Kafka Producer Sampler";
+        return "Jubei kafka producer";
     }
     private void init() {
         setLayout(new BorderLayout(0, 5))
-        setBorder(BorderFactory.createTitledBorder("Kafka Producer Settings"))
+        setBorder(BorderFactory.createTitledBorder("Jubei kafka producer with avro settings"))
         JPanel mainPanel = new VerticalPanel()
         samplerNameField = new JLabeledTextField("Sampler Name")
         producerName = new JLabeledTextField("Name for producer")
