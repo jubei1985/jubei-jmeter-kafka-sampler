@@ -2,6 +2,8 @@ name: Build and Release JMeter Plugin
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
