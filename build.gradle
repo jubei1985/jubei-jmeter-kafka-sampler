@@ -20,7 +20,12 @@ ext{
     gitpath = System.getenv("GIT") ?: git
 }
 */
-version = '1.0.0'	
+
+version = "1.0.0-SNAPSHOT"
+if (System.getenv("GITHUB_REF_TYPE") == "tag") {
+    version = System.getenv("GITHUB_REF_NAME").replaceAll(/^v/, "")
+}
+	
 dependencies {
     implementation 'org.apache.jmeter:ApacheJMeter_core:5.6.2'
     implementation 'org.apache.jmeter:ApacheJMeter_java:5.6.2'
